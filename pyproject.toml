@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "goemon-dynamites-translation"
+version = "0.1.0"
+description = "Scripts for translation of the Goemon Dynamites GBC game."
+authors = ["rsgrava <rsgrava@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
