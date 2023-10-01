@@ -4,10 +4,13 @@ version = "0.1.0"
 description = "Scripts for translation of the Goemon Dynamites GBC game."
 authors = ["rsgrava <rsgrava@hotmail.com>"]
 readme = "README.md"
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 
+[tool.poetry.scripts]
+extract_font = "src.main:extract_font"
 
 [build-system]
 requires = ["poetry-core"]
