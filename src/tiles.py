@@ -4,6 +4,11 @@ def extract_tiles(rom_buffer, start_address, num_tiles):
     tiles = rom_buffer[start_address:start_address + 16 * num_tiles]
     return tiles
 
+def inject_tiles(rom_buffer, tile_buffer, start_address):
+    for i in range(0, len(tile_buffer)):
+        rom_buffer[start_address + i] = tile_buffer[i]
+    return
+
 def tiles_to_bmp(tile_buffer, width_tiles, height_tiles, palette=DEFAULT_PALETTE):
     bitmap_buffer = bytearray(0)
     for i in range(height_tiles - 1, -1, -1):
@@ -18,6 +23,33 @@ def tiles_to_bmp(tile_buffer, width_tiles, height_tiles, palette=DEFAULT_PALETTE
                 pixel = ((byte2 << 1) & 0x02) | (byte1 & 0x01)
                 bitmap_buffer += palette[pixel]
     return bitmap_buffer
+
+def load_bmp(file_name, palette=DEFAULT_PALETTE):
+    file = open(file_name, "rb")
+    file.seek(10)
+    bitmap_start = int.from_bytes(file.read(4), "little")
+    file.seek(18)
+    width = int.from_bytes(file.read(4), "little")
+    height = int.from_bytes(file.read(4), "little")
+    tile_buffer = bytearray(0)
+    for i in range(height // 8 - 1, -1, -1):
+        for j in range(0, width // 8):
+            for k in range(0, 8):
+                file.seek(bitmap_start + 3 * ((8 * i - k + 7) * width + j * 8))
+                byte1 = 0
+                byte2 = 0
+                for l in range(0,8):
+                    pixel = file.read(3)
+                    for m in range(0,4):
+                        if pixel == palette[m]:
+                            byte1 |= (m & 0x01) << (7 - l)
+                            byte2 |= ((m >> 1) & 0x01) << (7 - l)
+                            break
+                        if m == 3:
+                            raise Exception("Found bitmap data not matching palette. Aborting.")
+                tile_buffer += byte1.to_bytes(1, "little")
+                tile_buffer += byte2.to_bytes(1, "little")
+    return tile_buffer
 
 def write_bmp(file_name, bitmap_buffer, width_tiles, height_tiles):
     file = open(file_name, "wb")
