@@ -33,3 +33,4 @@ The commands are as follows:
 
 - `extract_font`: extracts the original rom's font into a bitmap file at out/image/font.bmp
 - `inject_font`: creates rom with new font from data/edited_font.bmp
+- `explode_banks`: creates `out/bin` folder with each of the rom's banks exploded into a separate file

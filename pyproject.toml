@@ -13,6 +13,7 @@ python = "^3.11"
 extract_font = "src.main:extract_font"
 inject_font = "src.main:inject_font"
 inject_text_test = "src.main:inject_text_test"
+explode_banks = "src.main:explode_banks"
 
 [build-system]
 requires = ["poetry-core"]

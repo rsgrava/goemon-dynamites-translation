@@ -38,3 +38,12 @@ def inject_text_test():
     table = load_table("data/original.tbl")
     inject_text(rom, 0x99F3E, table, "SUP RHDN!")
     write_rom(rom)
+
+def explode_banks():
+    BANK_SIZE = 2**14
+    rom = load_rom()
+    os.makedirs("out/bin", exist_ok=True)
+    for i in range (0, len(rom) // BANK_SIZE):
+        file = open("out/bin/bank_" + "{:02d}".format(i) + ".bin", "wb")
+        file.write(rom[i * BANK_SIZE:(i + 1) * BANK_SIZE])
+    return
