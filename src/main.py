@@ -1,5 +1,6 @@
 import os
 
+from src.text import *
 from src.tiles import *
 
 def load_rom():
@@ -30,4 +31,10 @@ def inject_font():
     rom = load_rom()
     new_font = load_bmp("data/edited_font.bmp")
     inject_tiles(rom, new_font, FONT_START_ADDRESS)
+    write_rom(rom)
+
+def inject_text_test():
+    rom = load_rom()
+    table = load_table("data/original.tbl")
+    inject_text(rom, 0x99F3E, table, "SUP RHDN!")
     write_rom(rom)

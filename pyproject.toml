@@ -12,6 +12,7 @@ python = "^3.11"
 [tool.poetry.scripts]
 extract_font = "src.main:extract_font"
 inject_font = "src.main:inject_font"
+inject_text_test = "src.main:inject_text_test"
 
 [build-system]
 requires = ["poetry-core"]
